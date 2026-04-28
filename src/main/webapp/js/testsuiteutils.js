@@ -47,7 +47,7 @@ function setCookie(event) {
     const cvalue = document.getElementById(testcase + 'A').value;
 
     const formVar = "#Form" + testcase;
-    var URL = $(formVar).attr("action");
+    const URL = $(formVar).attr("action");
 
     Cookies.set(testcase, cvalue, {
         path: URL, version: 1, secure: true
