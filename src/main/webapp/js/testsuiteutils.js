@@ -65,13 +65,13 @@ function replaceAll(str, find, replace) {
 function submitHeaderForm(testcase) {
     const formVar = "#Form" + testcase;
     const suffix = "-Unsafe";
-    var rawtestcase = testcase;
+    let rawtestcase = testcase;
     if (testcase.endsWith(suffix)) rawtestcase = testcase.substring(0, testcase.length - suffix.length);
-    var formData = $(formVar).serialize();
-    var URL = $(formVar).attr("action");
-    var text = $(formVar + " input[id=" + rawtestcase + "]").val();
+    const formData = $(formVar).serialize();
+    const URL = $(formVar).attr("action");
+    const text = $(formVar + " input[id=" + rawtestcase + "]").val();
 
-    var xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.open("POST", URL, true);
 
     xhr.setRequestHeader( rawtestcase, text );
