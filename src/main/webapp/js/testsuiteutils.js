@@ -2,13 +2,13 @@
 
 $(document).ready(function() {
     // Add listeners for Jersey Ajax w/XML forms (and possibly others)
-    if (!!document.getElementById("login-btn")) {
+    if (document.getElementById("login-btn")) {
         document.getElementById("login-btn").addEventListener('click', dispatchToSubmit);
     }
-    if (!!document.getElementById("login-btn-atk")) {
+    if (document.getElementById("login-btn-atk")) {
         document.getElementById("login-btn-atk").addEventListener('click', dispatchToSubmit);
     }
-    if (!!document.getElementById("cGenerator")) {
+    if (document.getElementById("cGenerator")) {
         document.getElementById("cGenerator").addEventListener('click', setCookie);
     }
 });
@@ -47,7 +47,7 @@ function setCookie(event) {
     const cvalue = document.getElementById(testcase + 'A').value;
 
     const formVar = "#Form" + testcase;
-    var URL = $(formVar).attr("action");
+    const URL = $(formVar).attr("action");
 
     Cookies.set(testcase, cvalue, {
         path: URL, version: 1, secure: true
@@ -55,23 +55,23 @@ function setCookie(event) {
 }
 
 function escapeRegExp(str) {
-    return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+    return str.replaceAll(/([.*+?^=!:${}()|[\]/\\])/g, String.raw`\$1`);
 }
 
 function replaceAll(str, find, replace) {
-    return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+    return str.replaceAll(find, replace);
 }
 
 function submitHeaderForm(testcase) {
     const formVar = "#Form" + testcase;
     const suffix = "-Unsafe";
-    var rawtestcase = testcase;
+    let rawtestcase = testcase;
     if (testcase.endsWith(suffix)) rawtestcase = testcase.substring(0, testcase.length - suffix.length);
-    var formData = $(formVar).serialize();
-    var URL = $(formVar).attr("action");
-    var text = $(formVar + " input[id=" + rawtestcase + "]").val();
+    const formData = $(formVar).serialize();
+    const URL = $(formVar).attr("action");
+    const text = $(formVar + " input[id=" + rawtestcase + "]").val();
 
-    var xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.open("POST", URL, true);
 
     xhr.setRequestHeader( rawtestcase, text );
@@ -91,13 +91,13 @@ function submitHeaderForm(testcase) {
 function submitHeaderNamesForm(testcase) {
     const formVar = "#Form" + testcase;
     const suffix = "-Unsafe";
-    var rawtestcase = testcase;
+    let rawtestcase = testcase;
     if (testcase.endsWith(suffix)) rawtestcase = testcase.substring(0, testcase.length - suffix.length);
-    var formData = $(formVar).serialize();
-    var URL = $(formVar).attr("action");
-    var text = $(formVar + " input[id=" + rawtestcase + "]").val();
+    const formData = $(formVar).serialize();
+    const URL = $(formVar).attr("action");
+    const text = $(formVar + " input[id=" + rawtestcase + "]").val();
 
-    var xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.open("POST", URL, true);
 
     xhr.setRequestHeader( text, rawtestcase );
@@ -115,7 +115,7 @@ function submitHeaderNamesForm(testcase) {
 function submitParameterNamesForm(testcase) {
     const formVar = "#Form" + testcase;
     const suffix = "-Unsafe";
-    var rawtestcase = testcase;
+    let rawtestcase = testcase;
     if (testcase.endsWith(suffix)) rawtestcase = testcase.substring(0, testcase.length - suffix.length);
     var text = $(formVar + " input[id=" + rawtestcase + "]").val();
 
