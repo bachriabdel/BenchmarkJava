@@ -40,22 +40,7 @@ public class BenchmarkTest00237 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String param = "";
-        java.util.Enumeration<String> names = request.getHeaderNames();
-        while (names.hasMoreElements()) {
-            String name = (String) names.nextElement();
-
-            if (org.owasp.benchmark.helpers.Utils.commonHeaders.contains(name)) {
-                continue; // If standard header, move on to next one
-            }
-
-            java.util.Enumeration<String> values = request.getHeaders(name);
-            if (values != null && values.hasMoreElements()) {
-                param = name; // Grabs the name of the first non-standard header as the parameter
-                // value
-                break;
-            }
-        }
+        String param = extractHeaderParam(request);
         // Note: We don't URL decode header names because people don't normally do that
 
         String bar;
@@ -91,18 +76,7 @@ public class BenchmarkTest00237 extends HttpServlet {
 
         String cookieName = "rememberMe" + testCaseNumber;
 
-        boolean foundUser = false;
-        javax.servlet.http.Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (int i = 0; !foundUser && i < cookies.length; i++) {
-                javax.servlet.http.Cookie cookie = cookies[i];
-                if (cookieName.equals(cookie.getName())) {
-                    if (cookie.getValue().equals(request.getSession().getAttribute(cookieName))) {
-                        foundUser = true;
-                    }
-                }
-            }
-        }
+        boolean foundUser = isUserFound(request, cookieName);
 
         if (foundUser) {
             response.getWriter().println("Welcome back: " + user + "<br/>");
@@ -126,5 +100,39 @@ public class BenchmarkTest00237 extends HttpServlet {
         }
 
         response.getWriter().println("Weak Randomness Test java.util.Random.nextInt() executed");
+    }
+
+    private static String extractHeaderParam(HttpServletRequest request) {
+        String param = "";
+        java.util.Enumeration<String> names = request.getHeaderNames();
+        while (names.hasMoreElements()) {
+            String name = (String) names.nextElement();
+
+            if (org.owasp.benchmark.helpers.Utils.commonHeaders.contains(name)) {
+                continue; // If standard header, move on to next one
+            }
+
+            java.util.Enumeration<String> values = request.getHeaders(name);
+            if (values != null && values.hasMoreElements()) {
+                param = name; // Grabs the name of the first non-standard header as the parameter
+                // value
+                break;
+            }
+        }
+        return param;
+    }
+
+    private static boolean isUserFound(HttpServletRequest request, String cookieName) {
+        javax.servlet.http.Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (int i = 0; i < cookies.length; i++) {
+                javax.servlet.http.Cookie cookie = cookies[i];
+                if (cookieName.equals(cookie.getName())
+                        && cookie.getValue().equals(request.getSession().getAttribute(cookieName))) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
