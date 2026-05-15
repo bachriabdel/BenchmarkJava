@@ -40,22 +40,7 @@ public class BenchmarkTest00562 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String param = "";
-        boolean flag = true;
-        java.util.Enumeration<String> names = request.getParameterNames();
-        while (names.hasMoreElements() && flag) {
-            String name = (String) names.nextElement();
-            String[] values = request.getParameterValues(name);
-            if (values != null) {
-                for (int i = 0; i < values.length && flag; i++) {
-                    String value = values[i];
-                    if (value.equals("BenchmarkTest00562")) {
-                        param = name;
-                        flag = false;
-                    }
-                }
-            }
-        }
+        String param = extractParam(request);
 
         String bar;
         String guess = "ABC";
@@ -81,50 +66,77 @@ public class BenchmarkTest00562 extends HttpServlet {
         float rand = new java.util.Random().nextFloat();
         String rememberMeKey = Float.toString(rand).substring(2); // Trim off the 0. at the front.
 
-        String user = "Floyd";
         String fullClassName = this.getClass().getName();
         String testCaseNumber =
                 fullClassName.substring(
                         fullClassName.lastIndexOf('.') + 1 + "BenchmarkTest".length());
-        user += testCaseNumber;
-
+        String user = "Floyd" + testCaseNumber;
         String cookieName = "rememberMe" + testCaseNumber;
 
-        boolean foundUser = false;
-        javax.servlet.http.Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (int i = 0; !foundUser && i < cookies.length; i++) {
-                javax.servlet.http.Cookie cookie = cookies[i];
-                if (cookieName.equals(cookie.getName())) {
-                    if (cookie.getValue().equals(request.getSession().getAttribute(cookieName))) {
-                        foundUser = true;
-                    }
-                }
-            }
-        }
+        boolean foundUser = findUserCookie(request, cookieName);
 
         if (foundUser) {
             response.getWriter().println("Welcome back: " + user + "<br/>");
         } else {
-            javax.servlet.http.Cookie rememberMe =
-                    new javax.servlet.http.Cookie(cookieName, rememberMeKey);
-            rememberMe.setSecure(true);
-            rememberMe.setHttpOnly(true);
-            rememberMe.setDomain(new java.net.URL(request.getRequestURL().toString()).getHost());
-            rememberMe.setPath(request.getRequestURI()); // i.e., set path to JUST this servlet
-            // e.g., /benchmark/sql-01/BenchmarkTest01001
-            request.getSession().setAttribute(cookieName, rememberMeKey);
-            response.addCookie(rememberMe);
-            response.getWriter()
-                    .println(
-                            user
-                                    + " has been remembered with cookie: "
-                                    + rememberMe.getName()
-                                    + " whose value is: "
-                                    + rememberMe.getValue()
-                                    + "<br/>");
+            setRememberMeCookie(request, response, cookieName, rememberMeKey, user);
         }
 
         response.getWriter().println("Weak Randomness Test java.util.Random.nextFloat() executed");
+    }
+
+    private static String extractParam(HttpServletRequest request) {
+        java.util.Enumeration<String> names = request.getParameterNames();
+        while (names.hasMoreElements()) {
+            String name = (String) names.nextElement();
+            String[] values = request.getParameterValues(name);
+            if (values != null) {
+                for (int i = 0; i < values.length; i++) {
+                    if (values[i].equals("BenchmarkTest00562")) {
+                        return name;
+                    }
+                }
+            }
+        }
+        return "";
+    }
+
+    private static boolean findUserCookie(HttpServletRequest request, String cookieName) {
+        javax.servlet.http.Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (int i = 0; i < cookies.length; i++) {
+                javax.servlet.http.Cookie cookie = cookies[i];
+                if (cookieName.equals(cookie.getName())
+                        && cookie.getValue().equals(request.getSession().getAttribute(cookieName))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static void setRememberMeCookie(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            String cookieName,
+            String rememberMeKey,
+            String user)
+            throws IOException {
+        javax.servlet.http.Cookie rememberMe =
+                new javax.servlet.http.Cookie(cookieName, rememberMeKey);
+        rememberMe.setSecure(true);
+        rememberMe.setHttpOnly(true);
+        rememberMe.setDomain(new java.net.URL(request.getRequestURL().toString()).getHost());
+        rememberMe.setPath(request.getRequestURI()); // i.e., set path to JUST this servlet
+        // e.g., /benchmark/sql-01/BenchmarkTest01001
+        request.getSession().setAttribute(cookieName, rememberMeKey);
+        response.addCookie(rememberMe);
+        response.getWriter()
+                .println(
+                        user
+                                + " has been remembered with cookie: "
+                                + rememberMe.getName()
+                                + " whose value is: "
+                                + rememberMe.getValue()
+                                + "<br/>");
     }
 }
