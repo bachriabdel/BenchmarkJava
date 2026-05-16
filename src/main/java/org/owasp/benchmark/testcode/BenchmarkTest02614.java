@@ -67,7 +67,7 @@ public class BenchmarkTest02614 extends HttpServlet {
         }
         param = java.net.URLDecoder.decode(param, "UTF-8");
 
-        String bar = doSomething(request, param);
+        doSomething(request, param);
 
         try {
             java.util.Random numGen = java.security.SecureRandom.getInstance("SHA1PRNG");
@@ -136,8 +136,7 @@ public class BenchmarkTest02614 extends HttpServlet {
         generator.nextBytes(barray);
     }
 
-    private static String doSomething(HttpServletRequest request, String param)
-            throws ServletException, IOException {
+    private static String doSomething(HttpServletRequest request, String param) {
 
         String bar = "";
         if (param != null) bar = param.split(" ")[0];
