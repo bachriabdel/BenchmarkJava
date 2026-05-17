@@ -85,7 +85,7 @@ public class BenchmarkTest01004 extends HttpServlet {
     private class Test {
 
         public String doSomething(HttpServletRequest request, String param)
-                throws ServletException, IOException {
+                throws ServletException {
 
             String bar;
             String guess = "ABC";
@@ -105,7 +105,6 @@ public class BenchmarkTest01004 extends HttpServlet {
                     break;
                 default:
                     bar = "bobs_your_uncle";
-                    break;
             }
 
             return bar;
