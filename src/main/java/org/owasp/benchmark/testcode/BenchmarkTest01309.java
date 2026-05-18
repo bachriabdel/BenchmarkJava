@@ -80,7 +80,7 @@ public class BenchmarkTest01309 extends HttpServlet {
                     b9334.length() - "Chars".length(),
                     b9334.length(),
                     "Chars"); // replace some of the end content
-            java.util.HashMap<String, Object> map9334 = new java.util.HashMap<String, Object>();
+            java.util.HashMap<String, Object> map9334 = new java.util.HashMap<>();
             map9334.put("key9334", b9334.toString()); // put in a collection
             String c9334 = (String) map9334.get("key9334"); // get it back out
             String d9334 = c9334.substring(0, c9334.length() - 1); // extract most of it
@@ -93,9 +93,7 @@ public class BenchmarkTest01309 extends HttpServlet {
             org.owasp.benchmark.helpers.ThingInterface thing =
                     org.owasp.benchmark.helpers.ThingFactory.createThing();
             String g9334 = "barbarians_at_the_gate"; // This is static so this whole flow is 'safe'
-            String bar = thing.doSomething(g9334); // reflection
-
-            return bar;
+            return thing.doSomething(g9334); // reflection
         }
     } // end innerclass Test
 } // end DataflowThruInnerClass

@@ -50,7 +50,7 @@ public class BenchmarkTest00127 extends HttpServlet {
 
         String bar = "alsosafe";
         if (param != null) {
-            java.util.List<String> valuesList = new java.util.ArrayList<String>();
+            java.util.List<String> valuesList = new java.util.ArrayList<>();
             valuesList.add("safe");
             valuesList.add(param);
             valuesList.add("moresafe");
