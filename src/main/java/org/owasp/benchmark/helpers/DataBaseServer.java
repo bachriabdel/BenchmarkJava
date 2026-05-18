@@ -39,7 +39,7 @@ public class DataBaseServer {
     public ResponseEntity<List<XMLMessage>> getOtherOrder(
             @RequestBody Person model, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<XMLMessage> resp = new ArrayList<XMLMessage>();
+        ArrayList<XMLMessage> resp = new ArrayList<>();
         resp.add(new XMLMessage("Not Implemented."));
         return new ResponseEntity<List<XMLMessage>>(resp, HttpStatus.OK);
     }
