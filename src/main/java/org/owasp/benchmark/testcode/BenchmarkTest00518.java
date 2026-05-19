@@ -56,12 +56,14 @@ public class BenchmarkTest00518 extends HttpServlet {
         try {
             java.sql.Statement statement =
                     org.owasp.benchmark.helpers.DatabaseHelper.getSqlStatement();
-            int count = statement.executeUpdate(sql, new int[] {1, 2});
+            statement.executeUpdate(sql, new int[] {1, 2});
             org.owasp.benchmark.helpers.DatabaseHelper.outputUpdateComplete(sql, response);
         } catch (java.sql.SQLException e) {
             if (org.owasp.benchmark.helpers.DatabaseHelper.hideSQLErrors) {
                 response.getWriter().println("Error processing request.");
-            } else throw new ServletException(e);
+                return;
+            }
+            throw new ServletException(e);
         }
     }
 }
