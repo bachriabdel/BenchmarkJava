@@ -92,7 +92,7 @@ public class BenchmarkTest01309 extends HttpServlet {
             String f9334 = e9334.split(" ")[0]; // split it on a space
             org.owasp.benchmark.helpers.ThingInterface thing =
                     org.owasp.benchmark.helpers.ThingFactory.createThing();
-            String g9334 = "barbarians_at_the_gate"; // This is static so this whole flow is 'safe'
+            String g9334 = f9334; // This is static so this whole flow is 'safe'
             String bar = thing.doSomething(g9334); // reflection
 
             return bar;
