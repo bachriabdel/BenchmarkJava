@@ -40,42 +40,21 @@ public class BenchmarkTest00220 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String param = "";
         java.util.Enumeration<String> names = request.getHeaderNames();
         while (names.hasMoreElements()) {
-            String name = (String) names.nextElement();
+            String name = names.nextElement();
 
-            if (org.owasp.benchmark.helpers.Utils.commonHeaders.contains(name)) {
-                continue; // If standard header, move on to next one
-            }
-
-            java.util.Enumeration<String> values = request.getHeaders(name);
-            if (values != null && values.hasMoreElements()) {
-                param = name; // Grabs the name of the first non-standard header as the parameter
-                // value
-                break;
+            if (!org.owasp.benchmark.helpers.Utils.commonHeaders.contains(name)) {
+                java.util.Enumeration<String> values = request.getHeaders(name);
+                if (values != null && values.hasMoreElements()) {
+                    // value
+                    break;
+                }
             }
         }
         // Note: We don't URL decode header names because people don't normally do that
 
         // Chain a bunch of propagators in sequence
-        String a25969 = param; // assign
-        StringBuilder b25969 = new StringBuilder(a25969); // stick in stringbuilder
-        b25969.append(" SafeStuff"); // append some safe content
-        b25969.replace(
-                b25969.length() - "Chars".length(),
-                b25969.length(),
-                "Chars"); // replace some of the end content
-        java.util.HashMap<String, Object> map25969 = new java.util.HashMap<String, Object>();
-        map25969.put("key25969", b25969.toString()); // put in a collection
-        String c25969 = (String) map25969.get("key25969"); // get it back out
-        String d25969 = c25969.substring(0, c25969.length() - 1); // extract most of it
-        String e25969 =
-                new String(
-                        org.apache.commons.codec.binary.Base64.decodeBase64(
-                                org.apache.commons.codec.binary.Base64.encodeBase64(
-                                        d25969.getBytes()))); // B64 encode and decode it
-        String f25969 = e25969.split(" ")[0]; // split it on a space
         org.owasp.benchmark.helpers.ThingInterface thing =
                 org.owasp.benchmark.helpers.ThingFactory.createThing();
         String g25969 = "barbarians_at_the_gate"; // This is static so this whole flow is 'safe'

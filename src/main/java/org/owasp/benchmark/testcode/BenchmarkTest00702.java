@@ -40,20 +40,6 @@ public class BenchmarkTest00702 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String[] values = request.getParameterValues("BenchmarkTest00702");
-        String param;
-        if (values != null && values.length > 0) param = values[0];
-        else param = "";
-
-        String bar = "";
-        if (param != null) {
-            bar =
-                    new String(
-                            org.apache.commons.codec.binary.Base64.decodeBase64(
-                                    org.apache.commons.codec.binary.Base64.encodeBase64(
-                                            param.getBytes())));
-        }
-
         double value = java.lang.Math.random();
         String rememberMeKey = Double.toString(value).substring(2); // Trim off the 0. at the front.
 
