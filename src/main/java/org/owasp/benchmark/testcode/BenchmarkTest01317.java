@@ -152,12 +152,11 @@ public class BenchmarkTest01317 extends HttpServlet {
 
     private class Test {
 
-        public String doSomething(HttpServletRequest request, String param)
-                throws ServletException, IOException {
+        public String doSomething(HttpServletRequest request, String param) {
 
             String bar = "";
             if (param != null) {
-                java.util.List<String> valuesList = new java.util.ArrayList<String>();
+                java.util.List<String> valuesList = new java.util.ArrayList<>();
                 valuesList.add("safe");
                 valuesList.add(param);
                 valuesList.add("moresafe");
