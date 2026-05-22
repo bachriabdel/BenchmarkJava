@@ -87,7 +87,7 @@ public class BenchmarkTest00702 extends HttpServlet {
                     new javax.servlet.http.Cookie(cookieName, rememberMeKey);
             rememberMe.setSecure(true);
             rememberMe.setHttpOnly(true);
-            rememberMe.setDomain(new java.net.URL(request.getRequestURL().toString()).getHost());
+            rememberMe.setDomain(java.net.URI.create(request.getRequestURL().toString()).getHost());
             rememberMe.setPath(request.getRequestURI()); // i.e., set path to JUST this servlet
             // e.g., /benchmark/sql-01/BenchmarkTest01001
             request.getSession().setAttribute(cookieName, rememberMeKey);
