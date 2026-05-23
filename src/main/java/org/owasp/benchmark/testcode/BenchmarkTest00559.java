@@ -44,7 +44,7 @@ public class BenchmarkTest00559 extends HttpServlet {
         boolean flag = true;
         java.util.Enumeration<String> names = request.getParameterNames();
         while (names.hasMoreElements() && flag) {
-            String name = (String) names.nextElement();
+            String name = names.nextElement();
             String[] values = request.getParameterValues(name);
             if (values != null) {
                 for (int i = 0; i < values.length && flag; i++) {
@@ -80,7 +80,7 @@ public class BenchmarkTest00559 extends HttpServlet {
         String g39502 = "barbarians_at_the_gate"; // This is static so this whole flow is 'safe'
         String bar = thing.doSomething(g39502); // reflection
 
-        java.util.List<String> argList = new java.util.ArrayList<String>();
+        java.util.List<String> argList = new java.util.ArrayList<>();
 
         String osName = System.getProperty("os.name");
         if (osName.indexOf("Windows") != -1) {
