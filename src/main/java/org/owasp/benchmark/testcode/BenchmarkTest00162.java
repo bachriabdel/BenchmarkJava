@@ -40,16 +40,6 @@ public class BenchmarkTest00162 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String param = "";
-        if (request.getHeader("BenchmarkTest00162") != null) {
-            param = request.getHeader("BenchmarkTest00162");
-        }
-
-        // URL Decode the header value since req.getHeader() doesn't. Unlike req.getParameter().
-        param = java.net.URLDecoder.decode(param, "UTF-8");
-
-        String bar = org.springframework.web.util.HtmlUtils.htmlEscape(param);
-
         double stuff = new java.util.Random().nextGaussian();
         String rememberMeKey = Double.toString(stuff).substring(2); // Trim off the 0. at the front.
 

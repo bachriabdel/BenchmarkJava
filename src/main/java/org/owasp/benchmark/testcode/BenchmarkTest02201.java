@@ -90,7 +90,7 @@ public class BenchmarkTest02201 extends HttpServlet {
     } // end doPost
 
     private static String doSomething(HttpServletRequest request, String param)
-            throws ServletException, IOException {
+            throws ServletException {
 
         String bar;
         String guess = "ABC";
