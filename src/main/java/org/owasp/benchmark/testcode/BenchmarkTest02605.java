@@ -67,7 +67,7 @@ public class BenchmarkTest02605 extends HttpServlet {
         }
         param = java.net.URLDecoder.decode(param, "UTF-8");
 
-        String bar = doSomething(request, param);
+        doSomething(request, param);
 
         double value = new java.util.Random().nextDouble();
         String rememberMeKey = Double.toString(value).substring(2); // Trim off the 0. at the front.
@@ -101,7 +101,7 @@ public class BenchmarkTest02605 extends HttpServlet {
                     new javax.servlet.http.Cookie(cookieName, rememberMeKey);
             rememberMe.setSecure(true);
             rememberMe.setHttpOnly(true);
-            rememberMe.setDomain(new java.net.URL(request.getRequestURL().toString()).getHost());
+            rememberMe.setDomain(java.net.URI.create(request.getRequestURL().toString()).getHost());
             rememberMe.setPath(request.getRequestURI()); // i.e., set path to JUST this servlet
             // e.g., /benchmark/sql-01/BenchmarkTest01001
             request.getSession().setAttribute(cookieName, rememberMeKey);

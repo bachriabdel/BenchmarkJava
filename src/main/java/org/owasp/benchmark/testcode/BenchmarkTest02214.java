@@ -90,11 +90,8 @@ public class BenchmarkTest02214 extends HttpServlet {
                                             .encodeForHTML(new String(input))
                                     + "' hashed and stored<br/>");
 
-        } catch (java.security.NoSuchAlgorithmException e) {
-            System.out.println(
-                    "Problem executing hash - TestCase java.security.MessageDigest.getInstance(java.lang.String,java.lang.String)");
-            throw new ServletException(e);
-        } catch (java.security.NoSuchProviderException e) {
+        } catch (java.security.NoSuchAlgorithmException
+                | java.security.NoSuchProviderException e) {
             System.out.println(
                     "Problem executing hash - TestCase java.security.MessageDigest.getInstance(java.lang.String,java.lang.String)");
             throw new ServletException(e);
