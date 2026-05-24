@@ -50,8 +50,7 @@ public class BenchmarkTest02129 extends HttpServlet {
         response.getWriter().printf(java.util.Locale.US, "Formatted like: %1$s and %2$s.", obj);
     } // end doPost
 
-    private static String doSomething(HttpServletRequest request, String param)
-            throws ServletException, IOException {
+    private static String doSomething(HttpServletRequest request, String param) {
 
         String bar = "";
         if (param != null) bar = param.split(" ")[0];
