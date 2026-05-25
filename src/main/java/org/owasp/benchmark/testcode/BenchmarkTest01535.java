@@ -45,7 +45,7 @@ public class BenchmarkTest01535 extends HttpServlet {
         String param = scr.getTheParameter("BenchmarkTest01535");
         if (param == null) param = "";
 
-        String bar = new Test().doSomething(request, param);
+        new Test().doSomething(request, param);
 
         try {
             double rand = java.security.SecureRandom.getInstance("SHA1PRNG").nextDouble();

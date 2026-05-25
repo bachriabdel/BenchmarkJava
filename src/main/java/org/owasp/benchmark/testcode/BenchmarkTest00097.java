@@ -39,7 +39,7 @@ public class BenchmarkTest00097 extends HttpServlet {
         userCookie.setSecure(true);
         userCookie.setHttpOnly(true);
         userCookie.setPath(request.getRequestURI());
-        userCookie.setDomain(new java.net.URL(request.getRequestURL().toString()).getHost());
+        userCookie.setDomain(java.net.URI.create(request.getRequestURL().toString()).getHost());
         response.addCookie(userCookie);
         javax.servlet.RequestDispatcher rd =
                 request.getRequestDispatcher("/trustbound-00/BenchmarkTest00097.html");

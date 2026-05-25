@@ -74,7 +74,6 @@ public class BenchmarkTest02149 extends HttpServlet {
             System.out.println("Problem executing cmdi - TestCase");
             response.getWriter()
                     .println(org.owasp.esapi.ESAPI.encoder().encodeForHTML(e.getMessage()));
-            return;
         }
     } // end doPost
 

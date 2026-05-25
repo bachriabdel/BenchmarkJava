@@ -44,7 +44,7 @@ public class BenchmarkTest01399 extends HttpServlet {
         boolean flag = true;
         java.util.Enumeration<String> names = request.getParameterNames();
         while (names.hasMoreElements() && flag) {
-            String name = (String) names.nextElement();
+            String name = names.nextElement();
             String[] values = request.getParameterValues(name);
             if (values != null) {
                 for (int i = 0; i < values.length && flag; i++) {
@@ -123,7 +123,7 @@ public class BenchmarkTest01399 extends HttpServlet {
     private class Test {
 
         public String doSomething(HttpServletRequest request, String param)
-                throws ServletException, IOException {
+                throws ServletException {
 
             String bar = "";
             if (param != null) bar = param.split(" ")[0];
