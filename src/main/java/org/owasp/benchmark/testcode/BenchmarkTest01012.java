@@ -39,7 +39,7 @@ public class BenchmarkTest01012 extends HttpServlet {
         userCookie.setSecure(true);
         userCookie.setHttpOnly(true);
         userCookie.setPath(request.getRequestURI());
-        userCookie.setDomain(new java.net.URL(request.getRequestURL().toString()).getHost());
+        userCookie.setDomain(java.net.URI.create(request.getRequestURL().toString()).getHost());
         response.addCookie(userCookie);
         javax.servlet.RequestDispatcher rd =
                 request.getRequestDispatcher("/sqli-02/BenchmarkTest01012.html");
@@ -86,7 +86,7 @@ public class BenchmarkTest01012 extends HttpServlet {
 
             String bar = "alsosafe";
             if (param != null) {
-                java.util.List<String> valuesList = new java.util.ArrayList<String>();
+                java.util.List<String> valuesList = new java.util.ArrayList<>();
                 valuesList.add("safe");
                 valuesList.add(param);
                 valuesList.add("moresafe");

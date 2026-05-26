@@ -62,7 +62,6 @@ public class BenchmarkTest00929 extends HttpServlet {
                 break;
             default:
                 bar = "bobs_your_uncle";
-                break;
         }
 
         String sql = "SELECT * from USERS where USERNAME=? and PASSWORD='" + bar + "'";
