@@ -109,13 +109,11 @@ public class BenchmarkTest01230 extends HttpServlet {
 
     private class Test {
 
-        public String doSomething(HttpServletRequest request, String param)
-                throws ServletException, IOException {
+        public String doSomething(HttpServletRequest request, String param) {
 
             StringBuilder sbxyz45958 = new StringBuilder(param);
-            String bar = sbxyz45958.append("_SafeStuff").toString();
 
-            return bar;
+            return sbxyz45958.append("_SafeStuff").toString();
         }
     } // end innerclass Test
 } // end DataflowThruInnerClass

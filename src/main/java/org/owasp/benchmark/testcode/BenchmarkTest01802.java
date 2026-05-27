@@ -58,12 +58,9 @@ public class BenchmarkTest01802 extends HttpServlet {
 
     private class Test {
 
-        public String doSomething(HttpServletRequest request, String param)
-                throws ServletException, IOException {
+        public String doSomething(HttpServletRequest request, String param) {
 
-            String bar = param;
-
-            return bar;
+            return param;
         }
     } // end innerclass Test
 } // end DataflowThruInnerClass
