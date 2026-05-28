@@ -52,7 +52,7 @@ public class BenchmarkTest01262 extends HttpServlet {
     private class Test {
 
         public String doSomething(HttpServletRequest request, String param)
-                throws ServletException, IOException {
+                throws ServletException {
 
             String bar = param;
             if (param != null && param.length() > 1) {
