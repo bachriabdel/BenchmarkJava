@@ -122,9 +122,8 @@ public class BenchmarkTest01197 extends HttpServlet {
                 throws ServletException, IOException {
 
             StringBuilder sbxyz6066 = new StringBuilder(param);
-            String bar = sbxyz6066.append("_SafeStuff").toString();
 
-            return bar;
+            return sbxyz6066.append("_SafeStuff").toString();
         }
     } // end innerclass Test
 } // end DataflowThruInnerClass

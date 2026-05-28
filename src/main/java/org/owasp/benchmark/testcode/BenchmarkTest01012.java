@@ -73,16 +73,17 @@ public class BenchmarkTest01012 extends HttpServlet {
             statement.execute(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
             org.owasp.benchmark.helpers.DatabaseHelper.printResults(statement, sql, response);
         } catch (java.sql.SQLException e) {
-            if (org.owasp.benchmark.helpers.DatabaseHelper.hideSQLErrors) {
-                response.getWriter().println("Error processing request.");
-            } else throw new ServletException(e);
+            if (!org.owasp.benchmark.helpers.DatabaseHelper.hideSQLErrors) {
+                throw new ServletException(e);
+            }
+            response.getWriter().println("Error processing request.");
         }
     } // end doPost
 
     private class Test {
 
         public String doSomething(HttpServletRequest request, String param)
-                throws ServletException, IOException {
+                throws ServletException {
 
             String bar = "alsosafe";
             if (param != null) {
