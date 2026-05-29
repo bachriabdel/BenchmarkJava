@@ -83,7 +83,6 @@ public class BenchmarkTest01690 extends HttpServlet {
             System.out.println("Problem executing cmdi - TestCase");
             response.getWriter()
                     .println(org.owasp.esapi.ESAPI.encoder().encodeForHTML(e.getMessage()));
-            return;
         }
     } // end doPost
 
@@ -92,9 +91,7 @@ public class BenchmarkTest01690 extends HttpServlet {
         public String doSomething(HttpServletRequest request, String param)
                 throws ServletException, IOException {
 
-            String bar = param;
-
-            return bar;
+            return param;
         }
     } // end innerclass Test
 } // end DataflowThruInnerClass
