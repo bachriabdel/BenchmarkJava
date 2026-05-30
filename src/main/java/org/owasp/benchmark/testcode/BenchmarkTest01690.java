@@ -74,10 +74,21 @@ public class BenchmarkTest01690 extends HttpServlet {
                         this.getClass().getClassLoader());
 
         String[] argsEnv = {bar};
-        Runtime r = Runtime.getRuntime();
 
         try {
-            Process p = r.exec(cmd, argsEnv);
+            String[] cmdArray = cmd.split("\\s+");
+            ProcessBuilder pb = new ProcessBuilder(cmdArray);
+            pb.environment().clear();
+            for (String envEntry : argsEnv) {
+                int eqIdx = envEntry.indexOf('=');
+                if (eqIdx >= 0) {
+                    pb.environment()
+                            .put(
+                                    envEntry.substring(0, eqIdx),
+                                    envEntry.substring(eqIdx + 1));
+                }
+            }
+            Process p = pb.start();
             org.owasp.benchmark.helpers.Utils.printOSCommandResults(p, response);
         } catch (IOException e) {
             System.out.println("Problem executing cmdi - TestCase");
@@ -90,7 +101,7 @@ public class BenchmarkTest01690 extends HttpServlet {
     private class Test {
 
         public String doSomething(HttpServletRequest request, String param)
-                throws ServletException, IOException {
+                throws ServletException {
 
             String bar = param;
 

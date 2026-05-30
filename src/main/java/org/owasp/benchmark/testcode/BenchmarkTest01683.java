@@ -67,7 +67,7 @@ public class BenchmarkTest01683 extends HttpServlet {
         }
         param = java.net.URLDecoder.decode(param, "UTF-8");
 
-        String bar = new Test().doSomething(request, param);
+        new Test().doSomething(request, param);
 
         byte[] input = new byte[1000];
         String str = "?";
@@ -106,9 +106,7 @@ public class BenchmarkTest01683 extends HttpServlet {
 
             org.owasp.benchmark.helpers.ThingInterface thing =
                     org.owasp.benchmark.helpers.ThingFactory.createThing();
-            String bar = thing.doSomething(param);
-
-            return bar;
+            return thing.doSomething(param);
         }
     } // end innerclass Test
 } // end DataflowThruInnerClass
