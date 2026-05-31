@@ -44,7 +44,7 @@ public class BenchmarkTest01785 extends HttpServlet {
                 new org.owasp.benchmark.helpers.SeparateClassRequest(request);
         String param = scr.getTheValue("BenchmarkTest01785");
 
-        String bar = new Test().doSomething(request, param);
+        new Test().doSomething(request, param);
 
         int r = new java.util.Random().nextInt();
         String rememberMeKey = Integer.toString(r);
@@ -102,9 +102,7 @@ public class BenchmarkTest01785 extends HttpServlet {
 
             org.owasp.benchmark.helpers.ThingInterface thing =
                     org.owasp.benchmark.helpers.ThingFactory.createThing();
-            String bar = thing.doSomething(param);
-
-            return bar;
+            return thing.doSomething(param);
         }
     } // end innerclass Test
 } // end DataflowThruInnerClass
