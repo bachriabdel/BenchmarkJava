@@ -91,11 +91,8 @@ public class BenchmarkTest01912 extends HttpServlet {
                                             .encodeForHTML(new String(input))
                                     + "' hashed and stored<br/>");
 
-        } catch (java.security.NoSuchAlgorithmException e) {
-            System.out.println(
-                    "Problem executing hash - TestCase java.security.MessageDigest.getInstance(java.lang.String,java.lang.String)");
-            throw new ServletException(e);
-        } catch (java.security.NoSuchProviderException e) {
+        } catch (java.security.NoSuchAlgorithmException
+                | java.security.NoSuchProviderException e) {
             System.out.println(
                     "Problem executing hash - TestCase java.security.MessageDigest.getInstance(java.lang.String,java.lang.String)");
             throw new ServletException(e);
@@ -106,12 +103,11 @@ public class BenchmarkTest01912 extends HttpServlet {
                         "Hash Test java.security.MessageDigest.getInstance(java.lang.String,java.lang.String) executed");
     } // end doPost
 
-    private static String doSomething(HttpServletRequest request, String param)
-            throws ServletException, IOException {
+    private static String doSomething(HttpServletRequest request, String param) {
 
         String bar = "alsosafe";
         if (param != null) {
-            java.util.List<String> valuesList = new java.util.ArrayList<String>();
+            java.util.List<String> valuesList = new java.util.ArrayList<>();
             valuesList.add("safe");
             valuesList.add(param);
             valuesList.add("moresafe");
