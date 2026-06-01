@@ -45,7 +45,7 @@ public class BenchmarkTest01542 extends HttpServlet {
         String param = scr.getTheParameter("BenchmarkTest01542");
         if (param == null) param = "";
 
-        String bar = new Test().doSomething(request, param);
+        new Test().doSomething(request, param);
 
         try {
             float rand = java.security.SecureRandom.getInstance("SHA1PRNG").nextFloat();
