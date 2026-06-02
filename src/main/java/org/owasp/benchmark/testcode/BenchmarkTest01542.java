@@ -105,11 +105,10 @@ public class BenchmarkTest01542 extends HttpServlet {
 
     private class Test {
 
-        public String doSomething(HttpServletRequest request, String param)
-                throws ServletException, IOException {
+        public String doSomething(HttpServletRequest request, String param) {
 
             String bar = "safe!";
-            java.util.HashMap<String, Object> map98601 = new java.util.HashMap<String, Object>();
+            java.util.HashMap<String, Object> map98601 = new java.util.HashMap<>();
             map98601.put("keyA-98601", "a-Value"); // put some stuff in the collection
             map98601.put("keyB-98601", param); // put it in a collection
             map98601.put("keyC", "another-Value"); // put some stuff in the collection
