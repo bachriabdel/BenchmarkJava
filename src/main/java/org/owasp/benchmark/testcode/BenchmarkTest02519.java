@@ -45,7 +45,7 @@ public class BenchmarkTest02519 extends HttpServlet {
         if (values != null && values.length > 0) param = values[0];
         else param = "";
 
-        String bar = doSomething(request, param);
+        doSomething(request, param);
 
         try {
             double rand = java.security.SecureRandom.getInstance("SHA1PRNG").nextDouble();
@@ -105,8 +105,7 @@ public class BenchmarkTest02519 extends HttpServlet {
                 .println("Weak Randomness Test java.security.SecureRandom.nextDouble() executed");
     } // end doPost
 
-    private static String doSomething(HttpServletRequest request, String param)
-            throws ServletException, IOException {
+    private static String doSomething(HttpServletRequest request, String param) {
 
         String bar = param;
         if (param != null && param.length() > 1) {

@@ -43,17 +43,15 @@ public class BenchmarkTest01103 extends HttpServlet {
         String param = "";
         java.util.Enumeration<String> names = request.getHeaderNames();
         while (names.hasMoreElements()) {
-            String name = (String) names.nextElement();
+            String name = names.nextElement();
 
-            if (org.owasp.benchmark.helpers.Utils.commonHeaders.contains(name)) {
-                continue; // If standard header, move on to next one
-            }
-
-            java.util.Enumeration<String> values = request.getHeaders(name);
-            if (values != null && values.hasMoreElements()) {
-                param = name; // Grabs the name of the first non-standard header as the parameter
-                // value
-                break;
+            if (!org.owasp.benchmark.helpers.Utils.commonHeaders.contains(name)) {
+                java.util.Enumeration<String> values = request.getHeaders(name);
+                if (values != null && values.hasMoreElements()) {
+                    param = name; // Grabs the name of the first non-standard header as the parameter
+                    // value
+                    break;
+                }
             }
         }
         // Note: We don't URL decode header names because people don't normally do that
@@ -134,7 +132,7 @@ public class BenchmarkTest01103 extends HttpServlet {
     private class Test {
 
         public String doSomething(HttpServletRequest request, String param)
-                throws ServletException, IOException {
+                throws ServletException {
 
             String bar;
             String guess = "ABC";
