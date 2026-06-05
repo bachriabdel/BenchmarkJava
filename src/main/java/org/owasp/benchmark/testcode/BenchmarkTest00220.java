@@ -81,13 +81,9 @@ public class BenchmarkTest00220 extends HttpServlet {
         String g25969 = "barbarians_at_the_gate"; // This is static so this whole flow is 'safe'
         String bar = thing.doSomething(g25969); // reflection
 
-        String fileName = null;
-        java.io.FileOutputStream fos = null;
+        String fileName = org.owasp.benchmark.helpers.Utils.TESTFILES_DIR + bar;
 
-        try {
-            fileName = org.owasp.benchmark.helpers.Utils.TESTFILES_DIR + bar;
-
-            fos = new java.io.FileOutputStream(fileName, false);
+        try (java.io.FileOutputStream fos = new java.io.FileOutputStream(fileName, false)) {
             response.getWriter()
                     .println(
                             "Now ready to write to file: "
@@ -96,15 +92,6 @@ public class BenchmarkTest00220 extends HttpServlet {
         } catch (Exception e) {
             System.out.println("Couldn't open FileOutputStream on file: '" + fileName + "'");
             //			System.out.println("File exception caught and swallowed: " + e.getMessage());
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                    fos = null;
-                } catch (Exception e) {
-                    // we tried...
-                }
-            }
         }
     }
 }
