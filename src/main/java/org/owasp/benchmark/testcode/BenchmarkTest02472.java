@@ -101,7 +101,7 @@ public class BenchmarkTest02472 extends HttpServlet {
             try {
                 ads.closeDirContext();
             } catch (Exception e) {
-                throw new ServletException(e);
+                // swallow exception to avoid masking any original exception
             }
         }
     } // end doPost
