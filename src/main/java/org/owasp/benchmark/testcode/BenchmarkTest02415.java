@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 public class BenchmarkTest02415 extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    private java.util.Random random = new java.util.Random();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -48,7 +49,7 @@ public class BenchmarkTest02415 extends HttpServlet {
         String bar = doSomething(request, param);
 
         byte[] bytes = new byte[10];
-        new java.util.Random().nextBytes(bytes);
+        this.random.nextBytes(bytes);
         String rememberMeKey = org.owasp.esapi.ESAPI.encoder().encodeForBase64(bytes, true);
 
         String user = "Byron";

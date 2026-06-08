@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 public class BenchmarkTest00487 extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    private static java.util.Random random = new java.util.Random();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -54,7 +55,7 @@ public class BenchmarkTest00487 extends HttpServlet {
         map10732.put("keyC", "another-Value"); // put some stuff in the collection
         bar = (String) map10732.get("keyB-10732"); // get it back out
 
-        int r = new java.util.Random().nextInt();
+        int r = random.nextInt();
         String rememberMeKey = Integer.toString(r);
 
         String user = "Ingrid";
