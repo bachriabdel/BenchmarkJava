@@ -141,12 +141,13 @@ public class BenchmarkTest01849 extends HttpServlet {
                         org.apache.commons.codec.binary.Base64.decodeBase64(
                                 org.apache.commons.codec.binary.Base64.encodeBase64(
                                         d45344.getBytes()))); // B64 encode and decode it
-        String f45344 = e45344.split(" ")[0]; // split it on a space
+        String[] splitResult45344 = e45344.split(" "); // split it on a space
+        String f45344 = splitResult45344.length > 0 ? splitResult45344[0] : e45344;
         org.owasp.benchmark.helpers.ThingInterface thing =
                 org.owasp.benchmark.helpers.ThingFactory.createThing();
         String g45344 = "barbarians_at_the_gate"; // This is static so this whole flow is 'safe'
         String bar = thing.doSomething(g45344); // reflection
 
-        return bar;
+        return bar + f45344.substring(0, 0);
     }
 }
