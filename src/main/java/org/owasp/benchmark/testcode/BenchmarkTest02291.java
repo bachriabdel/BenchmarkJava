@@ -28,6 +28,9 @@ import javax.servlet.http.HttpServletResponse;
 public class BenchmarkTest02291 extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    private static final String CRYPTO_ERROR_MESSAGE =
+            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case";
+    private static final java.security.SecureRandom random = new java.security.SecureRandom();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -66,16 +69,15 @@ public class BenchmarkTest02291 extends HttpServlet {
         //	    	(byte)0xB2, (byte)0x12, (byte)0xD5, (byte)0xB2,
         //	    	(byte)0x44, (byte)0x21, (byte)0xC3, (byte)0xC3033
         //	    };
-        java.security.SecureRandom random = new java.security.SecureRandom();
-        byte[] iv = random.generateSeed(8); // DES requires 8 byte keys
+        byte[] iv = random.generateSeed(12); // DES requires 8 byte keys
 
         try {
             javax.crypto.Cipher c =
-                    javax.crypto.Cipher.getInstance("DES/CBC/PKCS5Padding", "SunJCE");
+                    javax.crypto.Cipher.getInstance("AES/GCM/NoPadding", "SunJCE");
             // Prepare the cipher to encrypt
-            javax.crypto.SecretKey key = javax.crypto.KeyGenerator.getInstance("DES").generateKey();
+            javax.crypto.SecretKey key = javax.crypto.KeyGenerator.getInstance("AES").generateKey();
             java.security.spec.AlgorithmParameterSpec paramSpec =
-                    new javax.crypto.spec.IvParameterSpec(iv);
+                    new javax.crypto.spec.GCMParameterSpec(128, iv);
             c.init(javax.crypto.Cipher.ENCRYPT_MODE, key, paramSpec);
 
             // encrypt and store the results
@@ -118,44 +120,37 @@ public class BenchmarkTest02291 extends HttpServlet {
 
         } catch (java.security.NoSuchAlgorithmException e) {
             response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case");
+                    .println(CRYPTO_ERROR_MESSAGE);
             e.printStackTrace(response.getWriter());
             throw new ServletException(e);
         } catch (java.security.NoSuchProviderException e) {
             response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case");
+                    .println(CRYPTO_ERROR_MESSAGE);
             e.printStackTrace(response.getWriter());
             throw new ServletException(e);
         } catch (javax.crypto.NoSuchPaddingException e) {
             response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case");
+                    .println(CRYPTO_ERROR_MESSAGE);
             e.printStackTrace(response.getWriter());
             throw new ServletException(e);
         } catch (javax.crypto.IllegalBlockSizeException e) {
             response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case");
+                    .println(CRYPTO_ERROR_MESSAGE);
             e.printStackTrace(response.getWriter());
             throw new ServletException(e);
         } catch (javax.crypto.BadPaddingException e) {
             response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case");
+                    .println(CRYPTO_ERROR_MESSAGE);
             e.printStackTrace(response.getWriter());
             throw new ServletException(e);
         } catch (java.security.InvalidKeyException e) {
             response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case");
+                    .println(CRYPTO_ERROR_MESSAGE);
             e.printStackTrace(response.getWriter());
             throw new ServletException(e);
         } catch (java.security.InvalidAlgorithmParameterException e) {
             response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case");
+                    .println(CRYPTO_ERROR_MESSAGE);
             e.printStackTrace(response.getWriter());
             throw new ServletException(e);
         }
