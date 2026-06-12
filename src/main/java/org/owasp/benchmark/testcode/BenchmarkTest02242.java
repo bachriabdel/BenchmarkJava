@@ -95,7 +95,7 @@ public class BenchmarkTest02242 extends HttpServlet {
                         org.apache.commons.codec.binary.Base64.decodeBase64(
                                 org.apache.commons.codec.binary.Base64.encodeBase64(
                                         d91595.getBytes()))); // B64 encode and decode it
-        String f91595 = e91595.split(" ")[0]; // split it on a space
+        String f91595 = e91595.split(" ", -1)[0]; // split it on a space
         org.owasp.benchmark.helpers.ThingInterface thing =
                 org.owasp.benchmark.helpers.ThingFactory.createThing();
         String g91595 = "barbarians_at_the_gate"; // This is static so this whole flow is 'safe'

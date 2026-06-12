@@ -77,23 +77,6 @@ public class BenchmarkTest02367 extends HttpServlet {
             throws ServletException, IOException {
 
         // Chain a bunch of propagators in sequence
-        String a41891 = param; // assign
-        StringBuilder b41891 = new StringBuilder(a41891); // stick in stringbuilder
-        b41891.append(" SafeStuff"); // append some safe content
-        b41891.replace(
-                b41891.length() - "Chars".length(),
-                b41891.length(),
-                "Chars"); // replace some of the end content
-        java.util.HashMap<String, Object> map41891 = new java.util.HashMap<String, Object>();
-        map41891.put("key41891", b41891.toString()); // put in a collection
-        String c41891 = (String) map41891.get("key41891"); // get it back out
-        String d41891 = c41891.substring(0, c41891.length() - 1); // extract most of it
-        String e41891 =
-                new String(
-                        org.apache.commons.codec.binary.Base64.decodeBase64(
-                                org.apache.commons.codec.binary.Base64.encodeBase64(
-                                        d41891.getBytes()))); // B64 encode and decode it
-        String f41891 = e41891.split(" ")[0]; // split it on a space
         org.owasp.benchmark.helpers.ThingInterface thing =
                 org.owasp.benchmark.helpers.ThingFactory.createThing();
         String g41891 = "barbarians_at_the_gate"; // This is static so this whole flow is 'safe'
