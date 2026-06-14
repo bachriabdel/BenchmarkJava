@@ -70,13 +70,9 @@ public class BenchmarkTest00064 extends HttpServlet {
 
         bar = (7 * 18) + num > 200 ? "This_should_always_happen" : param;
 
-        String fileName = null;
-        java.io.FileOutputStream fos = null;
+        String fileName = org.owasp.benchmark.helpers.Utils.TESTFILES_DIR + bar;
 
-        try {
-            fileName = org.owasp.benchmark.helpers.Utils.TESTFILES_DIR + bar;
-
-            fos = new java.io.FileOutputStream(fileName);
+        try (java.io.FileOutputStream fos = new java.io.FileOutputStream(fileName)) {
             response.getWriter()
                     .println(
                             "Now ready to write to file: "
@@ -85,15 +81,6 @@ public class BenchmarkTest00064 extends HttpServlet {
         } catch (Exception e) {
             System.out.println("Couldn't open FileOutputStream on file: '" + fileName + "'");
             //			System.out.println("File exception caught and swallowed: " + e.getMessage());
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                    fos = null;
-                } catch (Exception e) {
-                    // we tried...
-                }
-            }
         }
     }
 }
