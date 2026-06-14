@@ -62,5 +62,7 @@ public class HTTPResponseHeaderFilter implements Filter {
     }
 
     @Override
-    public void destroy() {}
+    public void destroy() {
+        // No resources to release
+    }
 }
