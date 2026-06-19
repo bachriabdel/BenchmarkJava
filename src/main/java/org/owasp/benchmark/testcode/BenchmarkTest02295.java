@@ -40,22 +40,7 @@ public class BenchmarkTest02295 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String param = "";
-        boolean flag = true;
-        java.util.Enumeration<String> names = request.getParameterNames();
-        while (names.hasMoreElements() && flag) {
-            String name = (String) names.nextElement();
-            String[] values = request.getParameterValues(name);
-            if (values != null) {
-                for (int i = 0; i < values.length && flag; i++) {
-                    String value = values[i];
-                    if (value.equals("BenchmarkTest02295")) {
-                        param = name;
-                        flag = false;
-                    }
-                }
-            }
-        }
+        String param = extractParam(request);
 
         String bar = doSomething(request, param);
 
@@ -129,6 +114,26 @@ public class BenchmarkTest02295 extends HttpServlet {
             throw new ServletException(e);
         }
     } // end doPost
+
+    private static String extractParam(HttpServletRequest request) {
+        String param = "";
+        boolean flag = true;
+        java.util.Enumeration<String> names = request.getParameterNames();
+        while (names.hasMoreElements() && flag) {
+            String name = (String) names.nextElement();
+            String[] values = request.getParameterValues(name);
+            if (values != null) {
+                for (int i = 0; i < values.length && flag; i++) {
+                    String value = values[i];
+                    if (value.equals("BenchmarkTest02295")) {
+                        param = name;
+                        flag = false;
+                    }
+                }
+            }
+        }
+        return param;
+    }
 
     private static String doSomething(HttpServletRequest request, String param)
             throws ServletException, IOException {

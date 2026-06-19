@@ -40,22 +40,7 @@ public class BenchmarkTest01399 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String param = "";
-        boolean flag = true;
-        java.util.Enumeration<String> names = request.getParameterNames();
-        while (names.hasMoreElements() && flag) {
-            String name = (String) names.nextElement();
-            String[] values = request.getParameterValues(name);
-            if (values != null) {
-                for (int i = 0; i < values.length && flag; i++) {
-                    String value = values[i];
-                    if (value.equals("BenchmarkTest01399")) {
-                        param = name;
-                        flag = false;
-                    }
-                }
-            }
-        }
+        String param = extractParam(request);
 
         String bar = new Test().doSomething(request, param);
 
@@ -119,6 +104,22 @@ public class BenchmarkTest01399 extends HttpServlet {
                 .println(
                         "Crypto Test javax.crypto.Cipher.getInstance(java.lang.String,java.lang.String) executed");
     } // end doPost
+
+    private static String extractParam(HttpServletRequest request) {
+        java.util.Enumeration<String> names = request.getParameterNames();
+        while (names.hasMoreElements()) {
+            String name = (String) names.nextElement();
+            String[] values = request.getParameterValues(name);
+            if (values != null) {
+                for (int i = 0; i < values.length; i++) {
+                    if (values[i].equals("BenchmarkTest01399")) {
+                        return name;
+                    }
+                }
+            }
+        }
+        return "";
+    }
 
     private class Test {
 

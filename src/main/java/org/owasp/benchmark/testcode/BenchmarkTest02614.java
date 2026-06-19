@@ -88,19 +88,7 @@ public class BenchmarkTest02614 extends HttpServlet {
 
             String cookieName = "rememberMe" + testCaseNumber;
 
-            boolean foundUser = false;
-            javax.servlet.http.Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (int i = 0; !foundUser && i < cookies.length; i++) {
-                    javax.servlet.http.Cookie cookie = cookies[i];
-                    if (cookieName.equals(cookie.getName())) {
-                        if (cookie.getValue()
-                                .equals(request.getSession().getAttribute(cookieName))) {
-                            foundUser = true;
-                        }
-                    }
-                }
-            }
+            boolean foundUser = findUserCookie(request, cookieName);
 
             if (foundUser) {
                 response.getWriter().println("Welcome back: " + user + "<br/>");
@@ -131,6 +119,21 @@ public class BenchmarkTest02614 extends HttpServlet {
                             "Randomness Test java.security.SecureRandom.nextBytes(byte[]) executed");
         }
     } // end doPost
+
+    private static boolean findUserCookie(HttpServletRequest request, String cookieName) {
+        javax.servlet.http.Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (int i = 0; i < cookies.length; i++) {
+                javax.servlet.http.Cookie cookie = cookies[i];
+                if (cookieName.equals(cookie.getName())
+                        && cookie.getValue()
+                                .equals(request.getSession().getAttribute(cookieName))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     void getNextNumber(java.util.Random generator, byte[] barray) {
         generator.nextBytes(barray);
