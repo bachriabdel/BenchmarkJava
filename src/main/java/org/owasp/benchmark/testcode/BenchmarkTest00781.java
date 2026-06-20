@@ -29,6 +29,8 @@ public class BenchmarkTest00781 extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    private java.security.SecureRandom random = new java.security.SecureRandom();
+
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -76,7 +78,6 @@ public class BenchmarkTest00781 extends HttpServlet {
         //			(byte)0xB2, (byte)0x12, (byte)0xD5, (byte)0xB2,
         //			(byte)0x44, (byte)0x21, (byte)0xC3, (byte)0xC3033
         //		};
-        java.security.SecureRandom random = new java.security.SecureRandom();
         byte[] iv = random.generateSeed(8); // DES requires 8 byte keys
 
         try {
