@@ -61,23 +61,24 @@ public class BenchmarkTest01988 extends HttpServlet {
         String bar = doSomething(request, param);
 
         String fileName = null;
-        java.io.FileInputStream fis = null;
 
         try {
             fileName = org.owasp.benchmark.helpers.Utils.TESTFILES_DIR + bar;
-            fis = new java.io.FileInputStream(new java.io.File(fileName));
-            byte[] b = new byte[1000];
-            int size = fis.read(b);
-            response.getWriter()
-                    .println(
-                            "The beginning of file: '"
-                                    + org.owasp.esapi.ESAPI.encoder().encodeForHTML(fileName)
-                                    + "' is:\n\n"
-                                    + org.owasp
-                                            .esapi
-                                            .ESAPI
-                                            .encoder()
-                                            .encodeForHTML(new String(b, 0, size)));
+            try (java.io.FileInputStream fis =
+                    new java.io.FileInputStream(new java.io.File(fileName))) {
+                byte[] b = new byte[1000];
+                int size = fis.read(b);
+                response.getWriter()
+                        .println(
+                                "The beginning of file: '"
+                                        + org.owasp.esapi.ESAPI.encoder().encodeForHTML(fileName)
+                                        + "' is:\n\n"
+                                        + org.owasp
+                                                .esapi
+                                                .ESAPI
+                                                .encoder()
+                                                .encodeForHTML(new String(b, 0, size)));
+            }
         } catch (Exception e) {
             System.out.println("Couldn't open FileInputStream on file: '" + fileName + "'");
             response.getWriter()
@@ -88,15 +89,6 @@ public class BenchmarkTest01988 extends HttpServlet {
                                             .ESAPI
                                             .encoder()
                                             .encodeForHTML(e.getMessage()));
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                    fis = null;
-                } catch (Exception e) {
-                    // we tried...
-                }
-            }
         }
     } // end doPost
 
