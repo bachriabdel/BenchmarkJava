@@ -40,22 +40,7 @@ public class BenchmarkTest02354 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String param = "";
-        boolean flag = true;
-        java.util.Enumeration<String> names = request.getParameterNames();
-        while (names.hasMoreElements() && flag) {
-            String name = (String) names.nextElement();
-            String[] values = request.getParameterValues(name);
-            if (values != null) {
-                for (int i = 0; i < values.length && flag; i++) {
-                    String value = values[i];
-                    if (value.equals("BenchmarkTest02354")) {
-                        param = name;
-                        flag = false;
-                    }
-                }
-            }
-        }
+        String param = findParam(request);
 
         String bar = doSomething(request, param);
 
@@ -75,6 +60,22 @@ public class BenchmarkTest02354 extends HttpServlet {
             } else throw new ServletException(e);
         }
     } // end doPost
+
+    private static String findParam(HttpServletRequest request) {
+        java.util.Enumeration<String> names = request.getParameterNames();
+        while (names.hasMoreElements()) {
+            String name = (String) names.nextElement();
+            String[] values = request.getParameterValues(name);
+            if (values != null) {
+                for (int i = 0; i < values.length; i++) {
+                    if (values[i].equals("BenchmarkTest02354")) {
+                        return name;
+                    }
+                }
+            }
+        }
+        return "";
+    }
 
     private static String doSomething(HttpServletRequest request, String param)
             throws ServletException, IOException {
