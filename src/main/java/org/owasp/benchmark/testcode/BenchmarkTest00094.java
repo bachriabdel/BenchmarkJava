@@ -51,17 +51,7 @@ public class BenchmarkTest00094 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        javax.servlet.http.Cookie[] theCookies = request.getCookies();
-
-        String param = "noCookieValueSupplied";
-        if (theCookies != null) {
-            for (javax.servlet.http.Cookie theCookie : theCookies) {
-                if (theCookie.getName().equals("BenchmarkTest00094")) {
-                    param = java.net.URLDecoder.decode(theCookie.getValue(), "UTF-8");
-                    break;
-                }
-            }
-        }
+        String param = getParam(request);
 
         String bar = "safe!";
         java.util.HashMap<String, Object> map52993 = new java.util.HashMap<String, Object>();
@@ -127,5 +117,20 @@ public class BenchmarkTest00094 extends HttpServlet {
         }
         response.getWriter()
                 .println("Weak Randomness Test java.security.SecureRandom.nextDouble() executed");
+    }
+
+    private static String getParam(HttpServletRequest request)
+            throws java.io.UnsupportedEncodingException {
+        javax.servlet.http.Cookie[] theCookies = request.getCookies();
+        String param = "noCookieValueSupplied";
+        if (theCookies != null) {
+            for (javax.servlet.http.Cookie theCookie : theCookies) {
+                if (theCookie.getName().equals("BenchmarkTest00094")) {
+                    param = java.net.URLDecoder.decode(theCookie.getValue(), "UTF-8");
+                    break;
+                }
+            }
+        }
+        return param;
     }
 }
