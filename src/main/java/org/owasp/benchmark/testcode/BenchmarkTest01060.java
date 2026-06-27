@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 public class BenchmarkTest01060 extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    private static java.util.Random random = new java.util.Random();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -50,7 +51,7 @@ public class BenchmarkTest01060 extends HttpServlet {
 
         String bar = new Test().doSomething(request, param);
 
-        float rand = new java.util.Random().nextFloat();
+        float rand = random.nextFloat();
         String rememberMeKey = Float.toString(rand).substring(2); // Trim off the 0. at the front.
 
         String user = "Floyd";
