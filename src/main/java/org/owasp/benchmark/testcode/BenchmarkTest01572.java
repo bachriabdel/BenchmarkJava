@@ -47,12 +47,10 @@ public class BenchmarkTest01572 extends HttpServlet {
 
         String bar = new Test().doSomething(request, param);
 
-        String fileName = null;
-        java.io.FileInputStream fis = null;
+        String fileName = org.owasp.benchmark.helpers.Utils.TESTFILES_DIR + bar;
 
-        try {
-            fileName = org.owasp.benchmark.helpers.Utils.TESTFILES_DIR + bar;
-            fis = new java.io.FileInputStream(new java.io.File(fileName));
+        try (java.io.FileInputStream fis =
+                new java.io.FileInputStream(new java.io.File(fileName))) {
             byte[] b = new byte[1000];
             int size = fis.read(b);
             response.getWriter()
@@ -75,15 +73,6 @@ public class BenchmarkTest01572 extends HttpServlet {
                                             .ESAPI
                                             .encoder()
                                             .encodeForHTML(e.getMessage()));
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                    fis = null;
-                } catch (Exception e) {
-                    // we tried...
-                }
-            }
         }
     } // end doPost
 
