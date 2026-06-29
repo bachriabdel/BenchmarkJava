@@ -29,6 +29,9 @@ public class BenchmarkTest02547 extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    private static final String CRYPTO_ERROR_MESSAGE =
+            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String) Test Case";
+
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -132,38 +135,32 @@ public class BenchmarkTest02547 extends HttpServlet {
 
         } catch (java.security.NoSuchAlgorithmException e) {
             response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String) Test Case");
+                    .println(CRYPTO_ERROR_MESSAGE);
             e.printStackTrace(response.getWriter());
             throw new ServletException(e);
         } catch (javax.crypto.NoSuchPaddingException e) {
             response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String) Test Case");
+                    .println(CRYPTO_ERROR_MESSAGE);
             e.printStackTrace(response.getWriter());
             throw new ServletException(e);
         } catch (javax.crypto.IllegalBlockSizeException e) {
             response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String) Test Case");
+                    .println(CRYPTO_ERROR_MESSAGE);
             e.printStackTrace(response.getWriter());
             throw new ServletException(e);
         } catch (javax.crypto.BadPaddingException e) {
             response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String) Test Case");
+                    .println(CRYPTO_ERROR_MESSAGE);
             e.printStackTrace(response.getWriter());
             throw new ServletException(e);
         } catch (java.security.InvalidKeyException e) {
             response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String) Test Case");
+                    .println(CRYPTO_ERROR_MESSAGE);
             e.printStackTrace(response.getWriter());
             throw new ServletException(e);
         } catch (java.security.InvalidAlgorithmParameterException e) {
             response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String) Test Case");
+                    .println(CRYPTO_ERROR_MESSAGE);
             e.printStackTrace(response.getWriter());
             throw new ServletException(e);
         }
