@@ -18,6 +18,7 @@
 package org.owasp.benchmark.testcode;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 public class BenchmarkTest01823 extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    private static final java.security.SecureRandom random = new java.security.SecureRandom();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -51,17 +53,7 @@ public class BenchmarkTest01823 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        javax.servlet.http.Cookie[] theCookies = request.getCookies();
-
-        String param = "noCookieValueSupplied";
-        if (theCookies != null) {
-            for (javax.servlet.http.Cookie theCookie : theCookies) {
-                if (theCookie.getName().equals("BenchmarkTest01823")) {
-                    param = java.net.URLDecoder.decode(theCookie.getValue(), "UTF-8");
-                    break;
-                }
-            }
-        }
+        String param = getParam(request);
 
         String bar = doSomething(request, param);
 
@@ -72,18 +64,17 @@ public class BenchmarkTest01823 extends HttpServlet {
         //	    	(byte)0xB2, (byte)0x12, (byte)0xD5, (byte)0xB2,
         //	    	(byte)0x44, (byte)0x21, (byte)0xC3, (byte)0xC3033
         //	    };
-        java.security.SecureRandom random = new java.security.SecureRandom();
-        byte[] iv = random.generateSeed(8); // DES requires 8 byte keys
+        byte[] iv = random.generateSeed(12); // DES requires 8 byte keys
 
         try {
             javax.crypto.Cipher c =
                     javax.crypto.Cipher.getInstance(
-                            "DES/CBC/PKCS5PADDING", java.security.Security.getProvider("SunJCE"));
+                            "AES/GCM/NoPadding", java.security.Security.getProvider("SunJCE"));
 
             // Prepare the cipher to encrypt
-            javax.crypto.SecretKey key = javax.crypto.KeyGenerator.getInstance("DES").generateKey();
+            javax.crypto.SecretKey key = javax.crypto.KeyGenerator.getInstance("AES").generateKey();
             java.security.spec.AlgorithmParameterSpec paramSpec =
-                    new javax.crypto.spec.IvParameterSpec(iv);
+                    new javax.crypto.spec.GCMParameterSpec(128, iv);
             c.init(javax.crypto.Cipher.ENCRYPT_MODE, key, paramSpec);
 
             // encrypt and store the results
@@ -124,37 +115,12 @@ public class BenchmarkTest01823 extends HttpServlet {
                                             .encodeForHTML(new String(input))
                                     + "' encrypted and stored<br/>");
 
-        } catch (java.security.NoSuchAlgorithmException e) {
-            response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case");
-            e.printStackTrace(response.getWriter());
-            throw new ServletException(e);
-        } catch (javax.crypto.NoSuchPaddingException e) {
-            response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case");
-            e.printStackTrace(response.getWriter());
-            throw new ServletException(e);
-        } catch (javax.crypto.IllegalBlockSizeException e) {
-            response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case");
-            e.printStackTrace(response.getWriter());
-            throw new ServletException(e);
-        } catch (javax.crypto.BadPaddingException e) {
-            response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case");
-            e.printStackTrace(response.getWriter());
-            throw new ServletException(e);
-        } catch (java.security.InvalidKeyException e) {
-            response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case");
-            e.printStackTrace(response.getWriter());
-            throw new ServletException(e);
-        } catch (java.security.InvalidAlgorithmParameterException e) {
+        } catch (java.security.NoSuchAlgorithmException
+                | javax.crypto.NoSuchPaddingException
+                | javax.crypto.IllegalBlockSizeException
+                | javax.crypto.BadPaddingException
+                | java.security.InvalidKeyException
+                | java.security.InvalidAlgorithmParameterException e) {
             response.getWriter()
                     .println(
                             "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case");
@@ -165,6 +131,21 @@ public class BenchmarkTest01823 extends HttpServlet {
                 .println(
                         "Crypto Test javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) executed");
     } // end doPost
+
+    private static String getParam(HttpServletRequest request)
+            throws UnsupportedEncodingException {
+        String param = "noCookieValueSupplied";
+        javax.servlet.http.Cookie[] theCookies = request.getCookies();
+        if (theCookies != null) {
+            for (javax.servlet.http.Cookie theCookie : theCookies) {
+                if (theCookie.getName().equals("BenchmarkTest01823")) {
+                    param = java.net.URLDecoder.decode(theCookie.getValue(), "UTF-8");
+                    break;
+                }
+            }
+        }
+        return param;
+    }
 
     private static String doSomething(HttpServletRequest request, String param)
             throws ServletException, IOException {
