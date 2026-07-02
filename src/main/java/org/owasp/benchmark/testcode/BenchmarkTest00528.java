@@ -40,22 +40,7 @@ public class BenchmarkTest00528 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String param = "";
-        boolean flag = true;
-        java.util.Enumeration<String> names = request.getParameterNames();
-        while (names.hasMoreElements() && flag) {
-            String name = (String) names.nextElement();
-            String[] values = request.getParameterValues(name);
-            if (values != null) {
-                for (int i = 0; i < values.length && flag; i++) {
-                    String value = values[i];
-                    if (value.equals("BenchmarkTest00528")) {
-                        param = name;
-                        flag = false;
-                    }
-                }
-            }
-        }
+        String param = getParam(request);
 
         String bar = "safe!";
         java.util.HashMap<String, Object> map6751 = new java.util.HashMap<String, Object>();
@@ -102,5 +87,21 @@ public class BenchmarkTest00528 extends HttpServlet {
         } catch (java.net.URISyntaxException e) {
             throw new ServletException(e);
         }
+    }
+
+    private static String getParam(HttpServletRequest request) {
+        java.util.Enumeration<String> names = request.getParameterNames();
+        while (names.hasMoreElements()) {
+            String name = (String) names.nextElement();
+            String[] values = request.getParameterValues(name);
+            if (values != null) {
+                for (int i = 0; i < values.length; i++) {
+                    if (values[i].equals("BenchmarkTest00528")) {
+                        return name;
+                    }
+                }
+            }
+        }
+        return "";
     }
 }

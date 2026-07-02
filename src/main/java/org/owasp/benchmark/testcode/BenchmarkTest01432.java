@@ -40,22 +40,7 @@ public class BenchmarkTest01432 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String param = "";
-        boolean flag = true;
-        java.util.Enumeration<String> names = request.getParameterNames();
-        while (names.hasMoreElements() && flag) {
-            String name = (String) names.nextElement();
-            String[] values = request.getParameterValues(name);
-            if (values != null) {
-                for (int i = 0; i < values.length && flag; i++) {
-                    String value = values[i];
-                    if (value.equals("BenchmarkTest01432")) {
-                        param = name;
-                        flag = false;
-                    }
-                }
-            }
-        }
+        String param = extractParam(request);
 
         String bar = new Test().doSomething(request, param);
 
@@ -71,18 +56,7 @@ public class BenchmarkTest01432 extends HttpServlet {
 
         String cookieName = "rememberMe" + testCaseNumber;
 
-        boolean foundUser = false;
-        javax.servlet.http.Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (int i = 0; !foundUser && i < cookies.length; i++) {
-                javax.servlet.http.Cookie cookie = cookies[i];
-                if (cookieName.equals(cookie.getName())) {
-                    if (cookie.getValue().equals(request.getSession().getAttribute(cookieName))) {
-                        foundUser = true;
-                    }
-                }
-            }
-        }
+        boolean foundUser = findUser(request, cookieName);
 
         if (foundUser) {
             response.getWriter().println("Welcome back: " + user + "<br/>");
@@ -108,6 +82,42 @@ public class BenchmarkTest01432 extends HttpServlet {
         response.getWriter()
                 .println("Weak Randomness Test java.util.Random.nextGaussian() executed");
     } // end doPost
+
+    private static String extractParam(HttpServletRequest request) {
+        String param = "";
+        boolean flag = true;
+        java.util.Enumeration<String> names = request.getParameterNames();
+        while (names.hasMoreElements() && flag) {
+            String name = names.nextElement();
+            String[] values = request.getParameterValues(name);
+            if (values != null) {
+                for (int i = 0; i < values.length && flag; i++) {
+                    String value = values[i];
+                    if (value.equals("BenchmarkTest01432")) {
+                        param = name;
+                        flag = false;
+                    }
+                }
+            }
+        }
+        return param;
+    }
+
+    private static boolean findUser(HttpServletRequest request, String cookieName) {
+        boolean foundUser = false;
+        javax.servlet.http.Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (int i = 0; !foundUser && i < cookies.length; i++) {
+                javax.servlet.http.Cookie cookie = cookies[i];
+                if (cookieName.equals(cookie.getName())) {
+                    if (cookie.getValue().equals(request.getSession().getAttribute(cookieName))) {
+                        foundUser = true;
+                    }
+                }
+            }
+        }
+        return foundUser;
+    }
 
     private class Test {
 
