@@ -65,12 +65,12 @@ public class BenchmarkTest01976 extends HttpServlet {
         // AES/GCM example from:
         // https://javainterviewpoint.com/java-aes-256-gcm-encryption-and-decryption/
         // 16-byte initialization vector
-        //	    byte[] iv = {
-        //	    	(byte)0xB2, (byte)0x12, (byte)0xD5, (byte)0xB2,
-        //	    	(byte)0x44, (byte)0x21, (byte)0xC3, (byte)0xC3,
-        //	    	(byte)0xF3, (byte)0x3C, (byte)0x23, (byte)0xB9,
-        //	    	(byte)0x9E, (byte)0xC5, (byte)0x77, (byte)0x0B033
-        //	    };
+        //      byte[] iv = {
+        //          (byte)0xB2, (byte)0x12, (byte)0xD5, (byte)0xB2,
+        //          (byte)0x44, (byte)0x21, (byte)0xC3, (byte)0xC3,
+        //          (byte)0xF3, (byte)0x3C, (byte)0x23, (byte)0xB9,
+        //          (byte)0x9E, (byte)0xC5, (byte)0x77, (byte)0x0B033
+        //      };
         java.security.SecureRandom random = new java.security.SecureRandom();
         byte[] iv = random.generateSeed(16);
 
@@ -121,37 +121,12 @@ public class BenchmarkTest01976 extends HttpServlet {
                                             .encodeForHTML(new String(input))
                                     + "' encrypted and stored<br/>");
 
-        } catch (java.security.NoSuchAlgorithmException e) {
-            response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String) Test Case");
-            e.printStackTrace(response.getWriter());
-            throw new ServletException(e);
-        } catch (javax.crypto.NoSuchPaddingException e) {
-            response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String) Test Case");
-            e.printStackTrace(response.getWriter());
-            throw new ServletException(e);
-        } catch (javax.crypto.IllegalBlockSizeException e) {
-            response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String) Test Case");
-            e.printStackTrace(response.getWriter());
-            throw new ServletException(e);
-        } catch (javax.crypto.BadPaddingException e) {
-            response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String) Test Case");
-            e.printStackTrace(response.getWriter());
-            throw new ServletException(e);
-        } catch (java.security.InvalidKeyException e) {
-            response.getWriter()
-                    .println(
-                            "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String) Test Case");
-            e.printStackTrace(response.getWriter());
-            throw new ServletException(e);
-        } catch (java.security.InvalidAlgorithmParameterException e) {
+        } catch (java.security.NoSuchAlgorithmException
+                | javax.crypto.NoSuchPaddingException
+                | javax.crypto.IllegalBlockSizeException
+                | javax.crypto.BadPaddingException
+                | java.security.InvalidKeyException
+                | java.security.InvalidAlgorithmParameterException e) {
             response.getWriter()
                     .println(
                             "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String) Test Case");

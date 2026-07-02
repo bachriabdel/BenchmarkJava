@@ -40,32 +40,17 @@ public class BenchmarkTest02291 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String param = "";
-        boolean flag = true;
-        java.util.Enumeration<String> names = request.getParameterNames();
-        while (names.hasMoreElements() && flag) {
-            String name = (String) names.nextElement();
-            String[] values = request.getParameterValues(name);
-            if (values != null) {
-                for (int i = 0; i < values.length && flag; i++) {
-                    String value = values[i];
-                    if (value.equals("BenchmarkTest02291")) {
-                        param = name;
-                        flag = false;
-                    }
-                }
-            }
-        }
+        String param = extractParam(request);
 
         String bar = doSomething(request, param);
 
         // Code based on example from:
         // http://examples.javacodegeeks.com/core-java/crypto/encrypt-decrypt-file-stream-with-des/
         // 8-byte initialization vector
-        //	    byte[] iv = {
-        //	    	(byte)0xB2, (byte)0x12, (byte)0xD5, (byte)0xB2,
-        //	    	(byte)0x44, (byte)0x21, (byte)0xC3, (byte)0xC3033
-        //	    };
+        //      byte[] iv = {
+        //          (byte)0xB2, (byte)0x12, (byte)0xD5, (byte)0xB2,
+        //          (byte)0x44, (byte)0x21, (byte)0xC3, (byte)0xC3033
+        //      };
         java.security.SecureRandom random = new java.security.SecureRandom();
         byte[] iv = random.generateSeed(8); // DES requires 8 byte keys
 
@@ -163,6 +148,26 @@ public class BenchmarkTest02291 extends HttpServlet {
                 .println(
                         "Crypto Test javax.crypto.Cipher.getInstance(java.lang.String,java.lang.String) executed");
     } // end doPost
+
+    private static String extractParam(HttpServletRequest request) {
+        String param = "";
+        boolean flag = true;
+        java.util.Enumeration<String> names = request.getParameterNames();
+        while (names.hasMoreElements() && flag) {
+            String name = (String) names.nextElement();
+            String[] values = request.getParameterValues(name);
+            if (values != null) {
+                for (int i = 0; i < values.length && flag; i++) {
+                    String value = values[i];
+                    if (value.equals("BenchmarkTest02291")) {
+                        param = name;
+                        flag = false;
+                    }
+                }
+            }
+        }
+        return param;
+    }
 
     private static String doSomething(HttpServletRequest request, String param)
             throws ServletException, IOException {
