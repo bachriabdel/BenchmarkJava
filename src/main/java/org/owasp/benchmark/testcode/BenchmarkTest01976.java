@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 public class BenchmarkTest01976 extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    private static final java.security.SecureRandom random = new java.security.SecureRandom();
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -65,13 +66,12 @@ public class BenchmarkTest01976 extends HttpServlet {
         // AES/GCM example from:
         // https://javainterviewpoint.com/java-aes-256-gcm-encryption-and-decryption/
         // 16-byte initialization vector
-        //	    byte[] iv = {
-        //	    	(byte)0xB2, (byte)0x12, (byte)0xD5, (byte)0xB2,
-        //	    	(byte)0x44, (byte)0x21, (byte)0xC3, (byte)0xC3,
-        //	    	(byte)0xF3, (byte)0x3C, (byte)0x23, (byte)0xB9,
-        //	    	(byte)0x9E, (byte)0xC5, (byte)0x77, (byte)0x0B033
-        //	    };
-        java.security.SecureRandom random = new java.security.SecureRandom();
+        //      byte[] iv = {
+        //          (byte)0xB2, (byte)0x12, (byte)0xD5, (byte)0xB2,
+        //          (byte)0x44, (byte)0x21, (byte)0xC3, (byte)0xC3,
+        //          (byte)0xF3, (byte)0x3C, (byte)0x23, (byte)0xB9,
+        //          (byte)0x9E, (byte)0xC5, (byte)0x77, (byte)0x0B033
+        //      };
         byte[] iv = random.generateSeed(16);
 
         try {
