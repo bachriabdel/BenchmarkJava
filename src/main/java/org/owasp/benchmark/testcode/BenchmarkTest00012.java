@@ -105,7 +105,7 @@ public class BenchmarkTest00012 extends HttpServlet {
             try {
                 ads.closeDirContext();
             } catch (Exception e) {
-                throw new ServletException(e);
+                // Exception intentionally suppressed to avoid masking original exception
             }
         }
     }
