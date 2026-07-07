@@ -40,22 +40,7 @@ public class BenchmarkTest00561 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String param = "";
-        boolean flag = true;
-        java.util.Enumeration<String> names = request.getParameterNames();
-        while (names.hasMoreElements() && flag) {
-            String name = (String) names.nextElement();
-            String[] values = request.getParameterValues(name);
-            if (values != null) {
-                for (int i = 0; i < values.length && flag; i++) {
-                    String value = values[i];
-                    if (value.equals("BenchmarkTest00561")) {
-                        param = name;
-                        flag = false;
-                    }
-                }
-            }
-        }
+        String param = extractParam(request);
 
         String bar = "";
         if (param != null) {
@@ -117,5 +102,25 @@ public class BenchmarkTest00561 extends HttpServlet {
         }
 
         response.getWriter().println("Weak Randomness Test java.util.Random.nextFloat() executed");
+    }
+
+    private static String extractParam(HttpServletRequest request) {
+        String param = "";
+        boolean flag = true;
+        java.util.Enumeration<String> names = request.getParameterNames();
+        while (names.hasMoreElements() && flag) {
+            String name = (String) names.nextElement();
+            String[] values = request.getParameterValues(name);
+            if (values != null) {
+                for (int i = 0; i < values.length && flag; i++) {
+                    String value = values[i];
+                    if (value.equals("BenchmarkTest00561")) {
+                        param = name;
+                        flag = false;
+                    }
+                }
+            }
+        }
+        return param;
     }
 }
