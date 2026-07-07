@@ -51,17 +51,7 @@ public class BenchmarkTest00083 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        javax.servlet.http.Cookie[] theCookies = request.getCookies();
-
-        String param = "noCookieValueSupplied";
-        if (theCookies != null) {
-            for (javax.servlet.http.Cookie theCookie : theCookies) {
-                if (theCookie.getName().equals("BenchmarkTest00083")) {
-                    param = java.net.URLDecoder.decode(theCookie.getValue(), "UTF-8");
-                    break;
-                }
-            }
-        }
+        String param = getCookieValue(request);
 
         String bar;
 
@@ -117,5 +107,18 @@ public class BenchmarkTest00083 extends HttpServlet {
         }
 
         response.getWriter().println("Weak Randomness Test java.util.Random.nextInt(int) executed");
+    }
+
+    private static String getCookieValue(HttpServletRequest request)
+            throws java.io.UnsupportedEncodingException {
+        javax.servlet.http.Cookie[] theCookies = request.getCookies();
+        if (theCookies != null) {
+            for (javax.servlet.http.Cookie theCookie : theCookies) {
+                if (theCookie.getName().equals("BenchmarkTest00083")) {
+                    return java.net.URLDecoder.decode(theCookie.getValue(), "UTF-8");
+                }
+            }
+        }
+        return "noCookieValueSupplied";
     }
 }

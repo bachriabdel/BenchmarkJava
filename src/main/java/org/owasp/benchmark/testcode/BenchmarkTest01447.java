@@ -40,22 +40,7 @@ public class BenchmarkTest01447 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String param = "";
-        boolean flag = true;
-        java.util.Enumeration<String> names = request.getParameterNames();
-        while (names.hasMoreElements() && flag) {
-            String name = (String) names.nextElement();
-            String[] values = request.getParameterValues(name);
-            if (values != null) {
-                for (int i = 0; i < values.length && flag; i++) {
-                    String value = values[i];
-                    if (value.equals("BenchmarkTest01447")) {
-                        param = name;
-                        flag = false;
-                    }
-                }
-            }
-        }
+        String param = extractParam(request);
 
         String bar = new Test().doSomething(request, param);
 
@@ -78,19 +63,7 @@ public class BenchmarkTest01447 extends HttpServlet {
 
             String cookieName = "rememberMe" + testCaseNumber;
 
-            boolean foundUser = false;
-            javax.servlet.http.Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (int i = 0; !foundUser && i < cookies.length; i++) {
-                    javax.servlet.http.Cookie cookie = cookies[i];
-                    if (cookieName.equals(cookie.getName())) {
-                        if (cookie.getValue()
-                                .equals(request.getSession().getAttribute(cookieName))) {
-                            foundUser = true;
-                        }
-                    }
-                }
-            }
+            boolean foundUser = findUserCookie(request, cookieName);
 
             if (foundUser) {
                 response.getWriter().println("Welcome back: " + user + "<br/>");
@@ -124,6 +97,43 @@ public class BenchmarkTest01447 extends HttpServlet {
 
     void getNextNumber(java.util.Random generator, byte[] barray) {
         generator.nextBytes(barray);
+    }
+
+    private String extractParam(HttpServletRequest request) {
+        String param = "";
+        boolean flag = true;
+        java.util.Enumeration<String> names = request.getParameterNames();
+        while (names.hasMoreElements() && flag) {
+            String name = (String) names.nextElement();
+            String[] values = request.getParameterValues(name);
+            if (values != null) {
+                for (int i = 0; i < values.length && flag; i++) {
+                    String value = values[i];
+                    if (value.equals("BenchmarkTest01447")) {
+                        param = name;
+                        flag = false;
+                    }
+                }
+            }
+        }
+        return param;
+    }
+
+    private boolean findUserCookie(HttpServletRequest request, String cookieName) {
+        boolean foundUser = false;
+        javax.servlet.http.Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (int i = 0; !foundUser && i < cookies.length; i++) {
+                javax.servlet.http.Cookie cookie = cookies[i];
+                if (cookieName.equals(cookie.getName())) {
+                    if (cookie.getValue()
+                            .equals(request.getSession().getAttribute(cookieName))) {
+                        foundUser = true;
+                    }
+                }
+            }
+        }
+        return foundUser;
     }
 
     private class Test {
