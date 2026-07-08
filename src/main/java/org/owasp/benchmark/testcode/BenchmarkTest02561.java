@@ -69,12 +69,9 @@ public class BenchmarkTest02561 extends HttpServlet {
 
         String bar = doSomething(request, param);
 
-        String fileName = null;
-        java.io.FileInputStream fis = null;
+        String fileName = org.owasp.benchmark.helpers.Utils.TESTFILES_DIR + bar;
 
-        try {
-            fileName = org.owasp.benchmark.helpers.Utils.TESTFILES_DIR + bar;
-            fis = new java.io.FileInputStream(fileName);
+        try (java.io.FileInputStream fis = new java.io.FileInputStream(fileName)) {
             byte[] b = new byte[1000];
             int size = fis.read(b);
             response.getWriter()
@@ -86,16 +83,7 @@ public class BenchmarkTest02561 extends HttpServlet {
                     .println(org.owasp.esapi.ESAPI.encoder().encodeForHTML(new String(b, 0, size)));
         } catch (Exception e) {
             System.out.println("Couldn't open FileInputStream on file: '" + fileName + "'");
-            //			System.out.println("File exception caught and swallowed: " + e.getMessage());
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                    fis = null;
-                } catch (Exception e) {
-                    // we tried...
-                }
-            }
+            //          System.out.println("File exception caught and swallowed: " + e.getMessage());
         }
     } // end doPost
 
