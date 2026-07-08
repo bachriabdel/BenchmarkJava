@@ -45,13 +45,10 @@ public class BenchmarkTest02110 extends HttpServlet {
 
         String bar = doSomething(request, param);
 
-        String fileName = null;
-        java.io.FileOutputStream fos = null;
+        String fileName = org.owasp.benchmark.helpers.Utils.TESTFILES_DIR + bar;
 
-        try {
-            fileName = org.owasp.benchmark.helpers.Utils.TESTFILES_DIR + bar;
-
-            fos = new java.io.FileOutputStream(new java.io.File(fileName));
+        try (java.io.FileOutputStream fos =
+                new java.io.FileOutputStream(new java.io.File(fileName))) {
             response.getWriter()
                     .println(
                             "Now ready to write to file: "
@@ -59,16 +56,7 @@ public class BenchmarkTest02110 extends HttpServlet {
 
         } catch (Exception e) {
             System.out.println("Couldn't open FileOutputStream on file: '" + fileName + "'");
-            //			System.out.println("File exception caught and swallowed: " + e.getMessage());
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                    fos = null;
-                } catch (Exception e) {
-                    // we tried...
-                }
-            }
+            //          System.out.println("File exception caught and swallowed: " + e.getMessage());
         }
     } // end doPost
 
