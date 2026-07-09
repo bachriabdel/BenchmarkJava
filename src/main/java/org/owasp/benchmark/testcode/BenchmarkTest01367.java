@@ -74,11 +74,10 @@ public class BenchmarkTest01367 extends HttpServlet {
             if (cookies != null) {
                 for (int i = 0; !foundUser && i < cookies.length; i++) {
                     javax.servlet.http.Cookie cookie = cookies[i];
-                    if (cookieName.equals(cookie.getName())) {
-                        if (cookie.getValue()
-                                .equals(request.getSession().getAttribute(cookieName))) {
-                            foundUser = true;
-                        }
+                    if (cookieName.equals(cookie.getName())
+                            && cookie.getValue()
+                                    .equals(request.getSession().getAttribute(cookieName))) {
+                        foundUser = true;
                     }
                 }
             }
