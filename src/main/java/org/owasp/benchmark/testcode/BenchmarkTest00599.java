@@ -40,22 +40,7 @@ public class BenchmarkTest00599 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String param = "";
-        boolean flag = true;
-        java.util.Enumeration<String> names = request.getParameterNames();
-        while (names.hasMoreElements() && flag) {
-            String name = (String) names.nextElement();
-            String[] values = request.getParameterValues(name);
-            if (values != null) {
-                for (int i = 0; i < values.length && flag; i++) {
-                    String value = values[i];
-                    if (value.equals("BenchmarkTest00599")) {
-                        param = name;
-                        flag = false;
-                    }
-                }
-            }
-        }
+        String param = extractParam(request);
 
         // Chain a bunch of propagators in sequence
         String a99467 = param; // assign
@@ -95,5 +80,25 @@ public class BenchmarkTest00599 extends HttpServlet {
                 response.getWriter().println("Error processing request.");
             } else throw new ServletException(e);
         }
+    }
+
+    private static String extractParam(HttpServletRequest request) {
+        String param = "";
+        boolean flag = true;
+        java.util.Enumeration<String> names = request.getParameterNames();
+        while (names.hasMoreElements() && flag) {
+            String name = names.nextElement();
+            String[] values = request.getParameterValues(name);
+            if (values != null) {
+                for (int i = 0; i < values.length && flag; i++) {
+                    String value = values[i];
+                    if (value.equals("BenchmarkTest00599")) {
+                        param = name;
+                        flag = false;
+                    }
+                }
+            }
+        }
+        return param;
     }
 }
